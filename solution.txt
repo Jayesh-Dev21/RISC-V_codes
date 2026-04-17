@@ -1,0 +1,124 @@
+Solution Walkthrough
+====================
+
+Jayesh Krishan Puri
+RISC-V LFX Coding Challenge
+
+
+PROBLEM 1: TOWER OF HANOI
+--------------------------
+
+The idea:
+  You have 3 pegs and n disks of different sizes, all starting on peg A
+  stacked biggest-to-smallest. Goal is to get them all to peg C.
+  Rules: move one disk at a time, can't put a big disk on a small one.
+
+Why recursion works here:
+  To move n disks from A to C, you can think of it as:
+    - "get the top n-1 disks out of the way onto B"
+    - "move the bottom disk to C"
+    - "move that n-1 stack from B to C"
+  
+  And the "get n-1 disks somewhere" part is literally the same problem
+  just smaller. So the function calls itself. That's the recursion.
+  
+  Base case: n=1, just move it. No sub-problem needed.
+
+Worked example with 3 disks:
+
+  Start:  A=[3,2,1]  B=[]  C=[]
+
+  Move 1: disk 1  A -> C     A=[3,2]    B=[]     C=[1]
+  Move 2: disk 2  A -> B     A=[3]      B=[2]    C=[1]
+  Move 3: disk 1  C -> B     A=[3]      B=[2,1]  C=[]
+  Move 4: disk 3  A -> C     A=[]       B=[2,1]  C=[3]
+  Move 5: disk 1  B -> A     A=[1]      B=[2]    C=[3]
+  Move 6: disk 2  B -> C     A=[1]      B=[]     C=[3,2]
+  Move 7: disk 1  A -> C     A=[]       B=[]     C=[3,2,1]
+
+  7 moves = 2^3 - 1. This is always optimal.
+
+How the recursion tree looks (n=3):
+
+  hanoi(3, A, B, C)
+   |-- hanoi(2, A, C, B)
+   |    |-- hanoi(1, A, B, C)  -> move disk 1  A->C
+   |    |-- move disk 2  A->B
+   |    |-- hanoi(1, C, A, B)  -> move disk 1  C->B
+   |-- move disk 3  A->C
+   |-- hanoi(2, B, A, C)
+        |-- hanoi(1, B, C, A)  -> move disk 1  B->A
+        |-- move disk 2  B->C
+        |-- hanoi(1, A, B, C)  -> move disk 1  A->C
+
+What's recursive vs iterative in the code:
+  - hanoi() function = recursive (calls itself)
+  - draw(), init loop = iterative (for-loops)
+
+
+PROBLEM 2: CONWAY'S GAME OF LIFE
+----------------------------------
+
+What it is:
+  A grid of cells. Each cell is alive or dead. Every "generation" you
+  look at each cell, count how many of its 8 neighbors are alive, and
+  decide whether it lives or dies.
+
+The 4 rules (applied to all cells at the same time):
+  1. alive + fewer than 2 neighbors  -> dies
+  2. alive + 2 or 3 neighbors        -> stays alive
+  3. alive + more than 3 neighbors   -> dies
+  4. dead  + exactly 3 neighbors     -> becomes alive
+
+Basically: 2 or 3 neighbors is the sweet spot for survival, 3 is what
+it takes for birth. Everything else kills or stays dead.
+
+Why iteration (not recursion):
+  There's no self-similar sub-structure here. You're not breaking the
+  problem into smaller versions of itself. You're just scanning a grid,
+  counting things, and applying rules. That's loops.
+
+Toroidal wrapping:
+  The grid wraps around — if you go off the top edge you appear at the
+  bottom, same for left/right. This avoids having to handle boundaries
+  as a special case. The formula is:
+    neighbor_row = (row + offset + total_rows) % total_rows
+
+Step by step for a blinker (3x3, non-wrapping for clarity):
+
+  Gen 0:        Gen 1:        Gen 2:
+  . # .         . . .         . # .
+  . # .         # # #         . # .     <- oscillates forever
+  . # .         . . .         . # .
+
+  The middle column has neighbors=1 on the top and bottom cells (they die)
+  but the left and right of the middle row have exactly 3 neighbors
+  each (they come alive). So it flips between vertical and horizontal.
+
+Interesting patterns used in the code:
+  - Glider: a 5-cell shape that "walks" diagonally across the grid
+  - Gosper Glider Gun: 36 cells that produce a new glider every
+    30 generations. Proves the Game of Life can grow without bound.
+
+What's iterative in the code:
+  Everything. The generation loop, the cell-scanning loop, the
+  neighbor-counting loop, and the rendering loop are all for-loops.
+  There's zero recursion.
+
+
+RECURSION vs ITERATION — the short version
+--------------------------------------------
+
+Recursion: a function solves the problem by calling itself on a smaller
+  version. State lives on the call stack. Risk of stack overflow for
+  deep nesting. Natural when the problem has sub-problems that look
+  the same as the original (like Hanoi, mergesort, tree traversal).
+
+Iteration: explicit loops that scan/transform data. State lives in
+  variables and arrays. No stack overflow worry. Natural when you're
+  doing repeated passes over data (like cellular automata, sorting
+  arrays, matrix operations).
+
+Both are equivalent in power — anything you can write recursively can
+be rewritten with a loop + explicit stack, and vice versa. The choice
+is about which is clearer for the problem at hand.
