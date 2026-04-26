@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Tower of Hanoi in Bash
-# - Jayesh Krishan Puri
+# - Jayesh Puri
 #
 # Usage: ./hanoi.sh [num_disks]
 # Demonstrates recursion with a simple ASCII visualisation.
