@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Conway's Game of Life in Bash
-# Jayesh Krishan Puri
+# Jayesh Puri
 #
 # Usage: ./life.sh [rows] [cols] [generations]
 #
