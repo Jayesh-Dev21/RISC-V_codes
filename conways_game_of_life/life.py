@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Conway's Game of Life — Python
-Jayesh Krishan Puri
+Jayesh Puri
 
 Run:  python3 life.py [rows] [cols] [generations]
 
