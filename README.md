@@ -1,11 +1,11 @@
 # RISC-V Coding Challenge
 
-Jayesh Krishan Puri  
+Jayesh Puri  
 [github.com/Jayesh-Dev21](https://github.com/Jayesh-Dev21)
 
 ---
 
-Both problems solved in **Bash** and **Python** with terminal ASCII graphics.  
+Both problems solved in **Bash** and **Python**.  
 Recursion and iteration sections are commented inline in the source.
 
 ```
@@ -39,7 +39,7 @@ python3 conways_game_of_life/life.py 24 60 80
 
 ---
 
-## Problem 1 — Tower of Hanoi
+## Problem 1 - Tower of Hanoi
 
 Classic recursion problem. Move n disks from peg A to C, one at a time, never placing a bigger disk on a smaller one.
 
@@ -48,7 +48,7 @@ The trick is that moving n disks breaks down into:
 2. Move the big one
 3. Move n-1 back on top
 
-Base case is n=1 — just move it directly.
+Base case is n=1 - just move it directly.
 
 ### Pseudocode
 
@@ -72,7 +72,7 @@ This gives exactly 2^n - 1 moves every time (optimal).
 
 ---
 
-## Problem 2 — Conway's Game of Life
+## Problem 2 - Conway's Game of Life
 
 A cellular automaton where each cell is alive or dead, and the next state of the whole grid is computed from the current one using four rules:
 
@@ -116,6 +116,5 @@ Basically everywhere — nested loops over every cell, a loop over the 8 neighbo
 | | Hanoi | Game of Life |
 |---|---|---|
 | Main technique | Recursion | Iteration |
-| How state is tracked | Call stack | Grid arrays |
 | Stops when | Base case (n=1) | Generation limit |
 | Complexity | O(2^n) | O(rows × cols) per gen |
