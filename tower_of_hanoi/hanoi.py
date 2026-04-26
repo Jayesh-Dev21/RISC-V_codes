@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Tower of Hanoi — Python
-Jayesh Krishan Puri
+Jayesh Puri
 
 Run:  python3 hanoi.py [num_disks]
 """
